@@ -1,15 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum GameState
-{
-    none,
-    Play,
-    Pause,
-    Resume,
-    GameOver
-}
-
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
@@ -21,10 +12,7 @@ public class GameStateManager : MonoBehaviour
 
     private bool isGamePaused;
 
-    public bool GetIsGamePaused
-    {
-        get => isGamePaused;
-    }
+    public bool GetIsGamePaused => isGamePaused;
 
     private void Awake() 
     {

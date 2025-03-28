@@ -46,6 +46,7 @@ public class PlayerAnimation : MonoBehaviour
             {
                 transform.localScale = new(moveInputX, initialScale.y, initialScale.z);
             }
+            
             animator.SetFloat(Const.PlayerAnimations.FLOAT_SPEED, Mathf.Abs(moveInputX));
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 
 public class PlayerAttackState : IPlayerState
@@ -10,6 +9,7 @@ public class PlayerAttackState : IPlayerState
             player.GetPlayerEvents().OnStateChange.Invoke(new PlayerIdleState());
             return;
         }
+        
         player.CanMove = false;
         player.GetPlayerAttack().OnAttack();
         ResetAttack(player).Forget();

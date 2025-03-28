@@ -17,5 +17,9 @@ public class PlayerJumpState : IPlayerState
     }
     public void UpdateState(Player player)
     {
+        // if(player.GetPlayerJump().CheckGround())
+        // {
+        //     player.GetPlayerEvents().OnStateChange.Invoke(new PlayerIdleState());
+        // }
     }
 }

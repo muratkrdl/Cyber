@@ -23,17 +23,10 @@ public class PlayerInputHandle : MonoBehaviour
     private void Awake()
     {
         myPlayerInput = new();
+        myPlayerInput.Enable();
 
         player = GetComponent<Player>();
-    }
 
-    private void OnEnable()
-    {
-        myPlayerInput.Enable();
-    }
-
-    private void Start()
-    {
         myPlayerInput.Player.Move.performed += MoveActionStart;
         myPlayerInput.Player.Move.canceled += MoveActionCancel;
 
@@ -85,6 +78,8 @@ public class PlayerInputHandle : MonoBehaviour
         myPlayerInput.Player.Jump.started -= JumpActionStart;
 
         myPlayerInput.Player.Attack.started -= AttackActionStart;
+
+        myPlayerInput.Player.Dash.started -= DashActionStart;
 
         myPlayerInput.Disable();
     }

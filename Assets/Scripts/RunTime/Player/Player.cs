@@ -33,7 +33,7 @@ public class Player : GamePlayBehaviour
         get => canDash;
         set
         {
-            if(value)
+            if(value && !canDash)
             {
                 SetCanDashTrue().Forget();
             }
@@ -49,19 +49,10 @@ public class Player : GamePlayBehaviour
         set => onDash = value;
     }
 
-    public float GetInitialGravity
-    {
-        get => initialGravity;
-    }
+    public float GetInitialGravity => initialGravity;
 
-    public Rigidbody2D GetRigidbody
-    {
-        get => myRigidbody;
-    }
-    public SpriteRenderer GetPlayerSpriteRenderer
-    {
-        get => playerSpriteRenderer;
-    }
+    public Rigidbody2D GetRigidbody => myRigidbody;
+    public SpriteRenderer GetPlayerSpriteRenderer => playerSpriteRenderer;
 
     private void Awake()
     {
@@ -96,43 +87,16 @@ public class Player : GamePlayBehaviour
         GetPlayerStateController().SetPlayerState(state);
     }
 
-    public PlayerInputHandle GetPlayerInputHandle()
-    {
-        return playerInputHandle;
-    }
-    public PlayerAnimation GetPlayerAnimation()
-    {
-        return playerAnimation;
-    }
-    public PlayerMovement GetPlayerMovement()
-    {
-        return playerMovement;
-    }
-    public PlayerJump GetPlayerJump()
-    {
-        return playerJump;
-    }
-    public PlayerStateController GetPlayerStateController()
-    {
-        return playerStateController;
-    }
-    public PlayerAttack GetPlayerAttack()
-    {
-        return playerAttack;
-    }
-    public PlayerEvents GetPlayerEvents()
-    {
-        return playerEvents;
-    }
-    public PlayerDash GetPlayerDash()
-    {
-        return playerDash;
-    }
+    public PlayerInputHandle GetPlayerInputHandle() => playerInputHandle;
+    public PlayerAnimation GetPlayerAnimation() => playerAnimation;
+    public PlayerMovement GetPlayerMovement() => playerMovement;
+    public PlayerJump GetPlayerJump() => playerJump;
+    public PlayerStateController GetPlayerStateController() => playerStateController;
+    public PlayerAttack GetPlayerAttack() => playerAttack;
+    public PlayerEvents GetPlayerEvents() => playerEvents;
+    public PlayerDash GetPlayerDash() => playerDash;
 
-    public float GetHorizontalMovementInput()
-    {
-        return GetPlayerInputHandle().FramePlayerInput.MoveInput.x;
-    }
+    public float GetHorizontalMovementInput() => GetPlayerInputHandle().FramePlayerInput.MoveInput.x;
 
     protected override void GameStateManager_OnGamePause()
     {

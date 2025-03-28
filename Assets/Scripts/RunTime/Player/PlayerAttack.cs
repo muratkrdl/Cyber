@@ -29,7 +29,10 @@ public class PlayerAttack : MonoBehaviour
     
     public void OnAttack()
     {
-        cts.Cancel(); cts = new();
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = new();
+
         currentAttackIndex++;
         player.GetPlayerAnimation().SetFloat(Const.PlayerAnimations.FLOAT_ATTACK_INDEX, currentAttackIndex);
         player.GetPlayerAnimation().SetTrigger(Const.PlayerAnimations.TRIGGER_ATTACK);
@@ -37,7 +40,10 @@ public class PlayerAttack : MonoBehaviour
         {
             currentAttackIndex = -1;
         }
-        ResetCombo().Forget();
+        else
+        {
+            ResetCombo().Forget();
+        }
     }
     
     private async UniTaskVoid ResetCombo()
@@ -54,6 +60,7 @@ public class PlayerAttack : MonoBehaviour
     private void OnDestroy() 
     {
         cts.Cancel();
+        cts.Dispose();
         player.GetPlayerEvents().OnResetAttackIndex -= PlayerAttack_OnResetAttackIndex;
     }
 

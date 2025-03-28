@@ -39,7 +39,7 @@ public class PlayerJump : MonoBehaviour
     private void OnDrawGizmos() 
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(feetTransform.position, groundCheckSize);
+        Gizmos.DrawWireSphere(feetTransform.position, groundCheckSize);
     }
 
 }

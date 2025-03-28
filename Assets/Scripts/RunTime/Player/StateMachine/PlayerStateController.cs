@@ -13,7 +13,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void Start() 
     {
-        currentPlayerState = new PlayerMoveState();
+        currentPlayerState = new PlayerIdleState();
         currentPlayerState.EnterState(player);
     }
 

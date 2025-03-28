@@ -12,10 +12,7 @@ public abstract class ObjectPoolBase<T> : MonoBehaviour where T : Component, IPo
 
     private IObjectPool<T> pool;
 
-    public IObjectPool<T> GetPool
-    {
-        get => pool;
-    }
+    public IObjectPool<T> GetPool => pool;
 
     private void Awake() 
     {
@@ -25,10 +22,6 @@ public abstract class ObjectPoolBase<T> : MonoBehaviour where T : Component, IPo
             return;
         }
         Instance = this;
-    }
-
-    private void Start() 
-    {
         pool = new ObjectPool<T>
         (
             Create,
@@ -60,7 +53,12 @@ public abstract class ObjectPoolBase<T> : MonoBehaviour where T : Component, IPo
     }
     protected virtual void Destroy(T obj)
     {
-        Destroy(obj);
+        Destroy(obj.gameObject);
+    }
+
+    private void OnDestroy() 
+    {
+        pool.Clear();
     }
 
 }

@@ -4,6 +4,7 @@ public class PlayerDashState : IPlayerState
     {
         player.CanDash = false;
         player.OnDash = true;
+        
         float dashSpeed = player.GetPlayerDash().GetDashSpeed;
         if(player.transform.localScale.x < 0)
         {

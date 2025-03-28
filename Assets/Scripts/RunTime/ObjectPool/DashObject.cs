@@ -25,9 +25,18 @@ public class DashObject : MonoBehaviour, IPoolableObj<DashObject>
         
         spriteRenderer.sprite = renderer.sprite;
         spriteRenderer.color = randomColor;
+
         transform.position = renderer.transform.position;
         transform.localScale = refTransform.localScale;
-        spriteRenderer.DOColor(lerpColor, duration).SetEase(easeMod).OnComplete(() => pool.Release(this));
+
+        spriteRenderer.DOColor(lerpColor, duration)
+            .SetEase(easeMod)
+            .OnComplete(() => ReturnToPool());
+    }
+
+    private void ReturnToPool()
+    {
+        pool.Release(this);
     }
 
 }
