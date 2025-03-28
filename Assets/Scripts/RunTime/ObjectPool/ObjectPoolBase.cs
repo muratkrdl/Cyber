@@ -51,7 +51,6 @@ public abstract class ObjectPoolBase<T> : MonoBehaviour where T : Component, IPo
     }
     protected virtual void OnGet(T obj)
     {
-        Debug.Log("asdsa");
         obj.gameObject.SetActive(true);
         obj.transform.position = transform.position;
     }

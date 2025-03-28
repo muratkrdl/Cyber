@@ -23,7 +23,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update() 
     {
-        if(player.GetGamePaused) return;
+        if(GameStateManager.Instance.GetIsGamePaused || player.OnDash) return;
         
         SetAnimations();
     }

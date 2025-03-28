@@ -32,20 +32,20 @@ public class PlayerDash : MonoBehaviour
     {
         cts.Cancel(); cts = new();
 
-        StartSpriteCreator(player.GetPlayerSpriteRenderer, dashTime, GetDashSpriteFrequency).Forget();
+        StartDashSprites(player.GetPlayerSpriteRenderer, dashTime, GetDashSpriteFrequency).Forget();
     }
 
-    async UniTaskVoid StartSpriteCreator(SpriteRenderer spriteRenderer, float time, float dashSpriteFrequency)
+    async UniTaskVoid StartDashSprites(SpriteRenderer spriteRenderer, float time, float dashSpriteFrequency)
     {
         float t = 0;
         while(true)
         {
-            await UniTask.WaitUntil(() => !GameStateManager.Instance.GetIsGamePaused);
-            await UniTask.Delay(Extensions.GetUnitaskTime(dashSpriteFrequency), cancellationToken: cts.Token);
+            await Extensions.WaitUntil(!GameStateManager.Instance.GetIsGamePaused);
+            await Extensions.GetUnitaskTime(dashSpriteFrequency, cts);
 
             DashObject dashObject = DashObjectPool.Instance.GetPool.Get();
             dashObject.Initialize(spriteRenderer, player.transform);
- 
+
             t += dashSpriteFrequency;
             if(t >= time)
             {
@@ -53,6 +53,11 @@ public class PlayerDash : MonoBehaviour
             }
         }
 
+        if(player.GetPlayerJump().CheckGround())
+        {
+            player.CanDash = true;
+        }
+        player.OnDash = false;
         player.GetPlayerEvents().OnStateChange(new PlayerIdleState());
     }
 

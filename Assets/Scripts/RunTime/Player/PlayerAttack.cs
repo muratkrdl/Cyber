@@ -42,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
     
     private async UniTaskVoid ResetCombo()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(comboResetTimer), cancellationToken: cts.Token);
+        await Extensions.GetUnitaskTime(comboResetTimer, cts);
         currentAttackIndex = -1;
     }
 

@@ -20,4 +20,12 @@ public class PlayerAnimationEvents : MonoBehaviour
         
     }
 
+    public void AnimEvent_OnTouchGround()
+    {
+        if(player.GetPlayerJump().CheckGround())
+        {
+            player.CanDash = true;
+        }
+    }
+
 }

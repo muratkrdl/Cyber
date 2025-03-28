@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Player : GamePlayBehaviour
@@ -17,7 +18,8 @@ public class Player : GamePlayBehaviour
     private Rigidbody2D myRigidbody;
 
     private bool canMove = true;
-    private bool canDash = true;
+    private bool canDash;
+    private bool onDash;
     private float initialGravity;
     private float onPauseLinearVelocityY;
 
@@ -29,7 +31,22 @@ public class Player : GamePlayBehaviour
     public bool CanDash
     {
         get => canDash;
-        set => canDash = value;
+        set
+        {
+            if(value)
+            {
+                SetCanDashTrue().Forget();
+            }
+            else
+            {
+                canDash = value;
+            }
+        }
+    }
+    public bool OnDash
+    {
+        get => onDash;
+        set => onDash = value;
     }
 
     public float GetInitialGravity
@@ -70,7 +87,11 @@ public class Player : GamePlayBehaviour
 
     private void PlayerEvents_OnStateChange(IPlayerState state)
     {
-        if(GetGamePaused) return;
+        if(
+            GameStateManager.Instance.GetIsGamePaused ||
+            (state is PlayerDashState && !canDash) ||
+            (state is PlayerJumpState && onDash)) 
+            return;
 
         GetPlayerStateController().SetPlayerState(state);
     }
@@ -120,12 +141,10 @@ public class Player : GamePlayBehaviour
         GetRigidbody.linearVelocity = Vector2.zero;
         GetPlayerAnimation().GetAnimator.speed = 0;
         GetPlayerEvents().OnStateChange?.Invoke(new PlayerPauseState());
-        base.GameStateManager_OnGamePause();
     }
 
     protected override void GameStateManager_OnGameResume()
     {
-        base.GameStateManager_OnGameResume();
         GetRigidbody.gravityScale = initialGravity;
         GetRigidbody.linearVelocityY = onPauseLinearVelocityY;
         GetPlayerAnimation().GetAnimator.speed = 1;
@@ -136,6 +155,12 @@ public class Player : GamePlayBehaviour
     {
         base.OnDestroy();
         GetPlayerEvents().OnStateChange -= PlayerEvents_OnStateChange;
+    }
+
+    async UniTaskVoid SetCanDashTrue()
+    {
+        await Extensions.GetUnitaskTime(.1f);
+        canDash = true;
     }
 
 }

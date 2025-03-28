@@ -13,6 +13,5 @@ public class PlayerPauseState : IPlayerState
     }
     public void UpdateState(Player player)
     {
-        Debug.Log("Update Pause");
     }
 }

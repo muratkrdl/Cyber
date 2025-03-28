@@ -10,6 +10,7 @@ public static class Const
     {
         public const string BOOL_ISFALLING = "IsFalling";
 
+        public const string TRIGGER_IDLE = "Idle";
         public const string TRIGGER_JUMP = "Jump";
         public const string TRIGGER_DEAD = "Dead";
         public const string TRIGGER_ATTACK = "Attack";

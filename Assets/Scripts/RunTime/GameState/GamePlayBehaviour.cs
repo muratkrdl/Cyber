@@ -1,29 +1,16 @@
 using System;
 using UnityEngine;
 
-public class GamePlayBehaviour : MonoBehaviour
+public abstract class GamePlayBehaviour : MonoBehaviour
 {
-    private bool gamePaused;
-
-    public bool GetGamePaused
-    {
-        get => gamePaused;
-    }
-
     protected virtual void Start() 
     {
         GameStateManager.Instance.OnGamePause += GameStateManager_OnGamePause;
         GameStateManager.Instance.OnGameResume += GameStateManager_OnGameResume;
     }
 
-    protected virtual void GameStateManager_OnGamePause()
-    {
-        gamePaused = true;
-    }
-    protected virtual void GameStateManager_OnGameResume()
-    {
-        gamePaused = false;
-    }
+    protected abstract void GameStateManager_OnGamePause();
+    protected abstract void GameStateManager_OnGameResume();
 
     protected virtual void OnDestroy() 
     {
