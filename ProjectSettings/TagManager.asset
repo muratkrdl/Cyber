@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -11,14 +11,14 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - BG
+  - Player
+  - Enemy
+  - TileSet1
+  - TileSet2
+  - TileSet3
+  - TileSetCollider
+  - Ground
   - 
   - 
   - 
@@ -38,6 +38,29 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: TileSetCollider
+    uniqueID: 962606095
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 1418787317
+    locked: 0
+  - name: Enemy
+    uniqueID: 2793098139
+    locked: 0
+  - name: TileSet1
+    uniqueID: 1239681639
+    locked: 0
+  - name: TileSet2
+    uniqueID: 3057726111
+    locked: 0
+  - name: TileSet3
+    uniqueID: 3191561169
+    locked: 0
+  - name: Player
+    uniqueID: 1764098257
+    locked: 0
+  m_RenderingLayers:
+  - Default
