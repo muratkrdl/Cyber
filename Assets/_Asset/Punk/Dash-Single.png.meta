@@ -129,19 +129,19 @@ TextureImporter:
       name: Dash-Single_0
       rect:
         serializedVersion: 2
-        x: 15
+        x: 16
         y: 0
-        width: 20
-        height: 35
+        width: 32
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d120f24226340f490800000000000000
+      spriteID: 7c606e6e06b97a24c9071b26f889ee9a
       internalID: -7714592072892743139
       vertices: []
       indices: 
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: cd03b082f837ef9499aa18039d86b1c3
     internalID: 0
     vertices: []
     indices: 

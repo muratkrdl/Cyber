@@ -3,7 +3,7 @@ using UnityEngine;
 public class Player : GamePlayBehaviour
 {
     [Header("Common References")]
-    [SerializeField] private Rigidbody2D myRigidbody;
+    [SerializeField] private SpriteRenderer playerSpriteRenderer;
 
     private PlayerInputHandle playerInputHandle;
     private PlayerAnimation playerAnimation;
@@ -12,8 +12,12 @@ public class Player : GamePlayBehaviour
     private PlayerStateController playerStateController;
     private PlayerAttack playerAttack;
     private PlayerEvents playerEvents;
+    private PlayerDash playerDash;
+
+    private Rigidbody2D myRigidbody;
 
     private bool canMove = true;
+    private bool canDash = true;
     private float initialGravity;
     private float onPauseLinearVelocityY;
 
@@ -22,13 +26,27 @@ public class Player : GamePlayBehaviour
         get => canMove;
         set => canMove = value;
     }
+    public bool CanDash
+    {
+        get => canDash;
+        set => canDash = value;
+    }
+
+    public float GetInitialGravity
+    {
+        get => initialGravity;
+    }
 
     public Rigidbody2D GetRigidbody
     {
         get => myRigidbody;
     }
+    public SpriteRenderer GetPlayerSpriteRenderer
+    {
+        get => playerSpriteRenderer;
+    }
 
-    private void Awake() 
+    private void Awake()
     {
         playerInputHandle = GetComponent<PlayerInputHandle>();
         playerAnimation = GetComponent<PlayerAnimation>();
@@ -37,6 +55,9 @@ public class Player : GamePlayBehaviour
         playerStateController = GetComponent<PlayerStateController>();
         playerAttack = GetComponent<PlayerAttack>();
         playerEvents = GetComponent<PlayerEvents>();
+        playerDash = GetComponent<PlayerDash>();
+
+        myRigidbody = GetComponent<Rigidbody2D>();
 
         initialGravity = GetRigidbody.gravityScale;
     }
@@ -82,6 +103,10 @@ public class Player : GamePlayBehaviour
     {
         return playerEvents;
     }
+    public PlayerDash GetPlayerDash()
+    {
+        return playerDash;
+    }
 
     public float GetHorizontalMovementInput()
     {
@@ -107,7 +132,7 @@ public class Player : GamePlayBehaviour
         GetPlayerEvents().OnStateChange?.Invoke(new PlayerIdleState());
     }
 
-    protected override void OnDestroy() 
+    protected override void OnDestroy()
     {
         base.OnDestroy();
         GetPlayerEvents().OnStateChange -= PlayerEvents_OnStateChange;

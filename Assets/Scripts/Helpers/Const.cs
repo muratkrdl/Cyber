@@ -13,6 +13,7 @@ public static class Const
         public const string TRIGGER_JUMP = "Jump";
         public const string TRIGGER_DEAD = "Dead";
         public const string TRIGGER_ATTACK = "Attack";
+        public const string TRIGGER_DASH = "Dash";
 
         public const string FLOAT_SPEED = "Speed";
         public const string FLOAT_ATTACK_INDEX = "AttackIndex";

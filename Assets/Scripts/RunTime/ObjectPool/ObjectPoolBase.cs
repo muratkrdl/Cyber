@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ObjectPoolBase<T> : MonoBehaviour where T : Component, IPoolableObj<T>
+public abstract class ObjectPoolBase<T> : MonoBehaviour where T : Component, IPoolableObj<T>
 {
     public static ObjectPoolBase<T> Instance;
 
@@ -51,6 +51,7 @@ public class ObjectPoolBase<T> : MonoBehaviour where T : Component, IPoolableObj
     }
     protected virtual void OnGet(T obj)
     {
+        Debug.Log("asdsa");
         obj.gameObject.SetActive(true);
         obj.transform.position = transform.position;
     }

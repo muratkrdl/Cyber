@@ -19,6 +19,13 @@ public class GameStateManager : MonoBehaviour
 
     private GameState currentState;
 
+    private bool isGamePaused;
+
+    public bool GetIsGamePaused
+    {
+        get => isGamePaused;
+    }
+
     private void Awake() 
     {
         if(Instance != null)
@@ -35,10 +42,12 @@ public class GameStateManager : MonoBehaviour
     private void GameStateManager_OnGamePause()
     {
         currentState = GameState.Pause;
+        isGamePaused = true;
     }
     private void GameStateManager_OnGameResume()
     {
         currentState = GameState.Resume;
+        isGamePaused = false;
     }
 
     private void OnDestroy() 

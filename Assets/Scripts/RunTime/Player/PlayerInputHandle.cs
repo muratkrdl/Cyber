@@ -41,6 +41,8 @@ public class PlayerInputHandle : MonoBehaviour
 
         myPlayerInput.Player.Attack.started += AttackActionStart;
 
+        myPlayerInput.Player.Dash.started += DashActionStart;
+
 
 
 
@@ -65,6 +67,7 @@ public class PlayerInputHandle : MonoBehaviour
     private void JumpActionStart(InputAction.CallbackContext context) => player.GetPlayerEvents().OnStateChange?.Invoke(new PlayerJumpState());
 
     private void AttackActionStart(InputAction.CallbackContext context) => player.GetPlayerEvents().OnStateChange?.Invoke(new PlayerAttackState());
+    private void DashActionStart(InputAction.CallbackContext context) => player.GetPlayerEvents().OnStateChange?.Invoke(new PlayerDashState());
 
     private FramePlayerInput GatherPlayerInput()
     {

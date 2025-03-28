@@ -3133,6 +3133,7 @@ GameObject:
   - component: {fileID: 1053386324}
   - component: {fileID: 1053386332}
   - component: {fileID: 1053386331}
+  - component: {fileID: 1053386336}
   - component: {fileID: 1053386330}
   - component: {fileID: 1053386329}
   - component: {fileID: 1053386328}
@@ -3200,6 +3201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myRigidbody: {fileID: 1053386334}
+  playerSpriteRenderer: {fileID: 337105163}
 --- !u!114 &1053386327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3368,6 +3370,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ffcb444b7d787478b6ec0f284f29e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1053386336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053386322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ab24d28d29944458f7de8d4a1af6b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashSpeed: 4
+  dashTime: 0.25
+  spriteAmount: 25
 --- !u!1 &1172816832
 GameObject:
   m_ObjectHideFlags: 0
@@ -4572,9 +4589,9 @@ SceneRoots:
   - {fileID: 2004809782}
   - {fileID: 619394802}
   - {fileID: 1601761315}
-  - {fileID: 1825773898}
   - {fileID: 1920146121}
   - {fileID: 907672036}
+  - {fileID: 1825773898}
   - {fileID: 2098180166}
   - {fileID: 1172816836}
   - {fileID: 1957817854}
