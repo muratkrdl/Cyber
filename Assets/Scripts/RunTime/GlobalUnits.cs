@@ -4,7 +4,7 @@ public class GlobalUnits : MonoBehaviour
 {
     public static GlobalUnits Instance;
 
-    [SerializeField] private Player player;
+    [SerializeField] private PlayerFacade player;
 
     private void Awake() 
     {
@@ -16,7 +16,7 @@ public class GlobalUnits : MonoBehaviour
         Instance = this;
     }
 
-    public Player GetPlayer()
+    public PlayerFacade GetPlayer()
     {
         return player;
     }

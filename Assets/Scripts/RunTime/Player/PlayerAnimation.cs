@@ -2,36 +2,24 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private Animator animator;
-
-    private Player player;
-
+    private Animator animator;
+    private PlayerFacade playerFacade;
     private Vector3 initialScale;
 
-    public Animator GetAnimator
+    public PlayerAnimation(PlayerFacade playerFacade, Animator animator, Vector3 initialScale)
     {
-        get => animator;
+        this.playerFacade = playerFacade;
+        this.animator = animator;
+        this.initialScale = initialScale;
     }
 
-    private void Awake() 
+    public void SetAnimationValues()
     {
-        initialScale = transform.localScale;
+        if(GameStateManager.Instance.GetIsGamePaused || playerFacade.OnDash) return;
 
-        player = GetComponent<Player>();
-    }
 
-    private void Update() 
-    {
-        if(GameStateManager.Instance.GetIsGamePaused || player.OnDash) return;
-        
-        SetAnimations();
-    }
-
-    private void SetAnimations()
-    {
-        float moveInputX = player.GetPlayerInputHandle().FramePlayerInput.MoveInput.x;
-        float linearVelocityY = player.GetPlayerMovement().GetLinearVelocityY();
+        float moveInputX = playerFacade.GetPlayerMovementInput().x;
+        float linearVelocityY = playerFacade.GetLinearVelocity().y;
 
         animator.SetFloat(Const.PlayerAnimations.FLOAT_LINEAR_VELOCITY_Y, linearVelocityY);
 
@@ -40,11 +28,11 @@ public class PlayerAnimation : MonoBehaviour
             moveInputX = Mathf.Sign(moveInputX);
         }
 
-        if(player.CanMove)
+        if(playerFacade.CanMove)
         {
             if(moveInputX != 0)
             {
-                transform.localScale = new(moveInputX, initialScale.y, initialScale.z);
+                playerFacade.transform.localScale = new(moveInputX, initialScale.y, initialScale.z);
             }
             
             animator.SetFloat(Const.PlayerAnimations.FLOAT_SPEED, Mathf.Abs(moveInputX));

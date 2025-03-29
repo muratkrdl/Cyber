@@ -2,30 +2,15 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class PlayerDash : MonoBehaviour
+public class PlayerDash
 {
-    [Header("Settings")]
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float dashTime;
-    [SerializeField] private float spriteAmount;
-
     private CancellationTokenSource cts = new();
 
-    private Player player;
+    private PlayerFacade playerFacade;
 
-    public float GetDashSpeed
+    public PlayerDash(PlayerFacade playerFacade)
     {
-        get => dashSpeed;
-    }
-
-    public float GetDashSpriteFrequency
-    {
-        get => dashTime / spriteAmount;
-    }
-    
-    private void Awake() 
-    {
-        player = GetComponent<Player>();
+        this.playerFacade = playerFacade;
     }
 
     public void StartDash()
@@ -34,7 +19,7 @@ public class PlayerDash : MonoBehaviour
         cts?.Dispose();
         cts = new();
 
-        StartDashSprites(player.GetPlayerSpriteRenderer, dashTime, GetDashSpriteFrequency).Forget();
+        StartDashSprites(playerFacade.GetPlayerSpriteRenderer(), playerFacade.GetDashTime(), playerFacade.GetDashSpriteFrequency()).Forget();
     }
 
     async UniTaskVoid StartDashSprites(SpriteRenderer spriteRenderer, float time, float dashSpriteFrequency)
@@ -45,15 +30,15 @@ public class PlayerDash : MonoBehaviour
             await Extensions.GetUnitaskTime(dashSpriteFrequency, cts);
 
             DashObject dashObject = DashObjectPool.Instance.GetPool.Get();
-            dashObject.Initialize(spriteRenderer, player.transform);
+            dashObject.Initialize(spriteRenderer, playerFacade.transform);
         }
 
-        if(player.GetPlayerJump().CheckGround())
+        if(playerFacade.CheckGround())
         {
-            player.CanDash = true;
+            playerFacade.CanDash = true;
         }
-        player.OnDash = false;
-        player.GetPlayerEvents().OnStateChange(new PlayerIdleState());
+        playerFacade.OnDash = false;
+        PlayerEvents.Instance.OnStateChange(new PlayerIdleState());
     }
 
 }

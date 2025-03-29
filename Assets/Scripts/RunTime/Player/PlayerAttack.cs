@@ -1,30 +1,18 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack
 {
-    [SerializeField] private float comboResetTimer;
-    [SerializeField] private float timeBtwnAttack;
-    [SerializeField] private int maxCombo;
-
     private CancellationTokenSource cts = new();
 
-    private Player player;
+    private PlayerFacade playerFacade;
 
     private float currentAttackIndex = -1;
 
-    public float GetTimeBtwnAttack
+    public PlayerAttack(PlayerFacade playerFacade)
     {
-        get => timeBtwnAttack;
-    }
-
-    private void Awake()
-    {
-        player = GetComponent<Player>();
-
-        player.GetPlayerEvents().OnResetAttackIndex += PlayerAttack_OnResetAttackIndex;
+        this.playerFacade = playerFacade;
+        PlayerEvents.Instance.OnResetAttackIndex += PlayerAttack_OnResetAttackIndex;
     }
     
     public void OnAttack()
@@ -34,9 +22,9 @@ public class PlayerAttack : MonoBehaviour
         cts = new();
 
         currentAttackIndex++;
-        player.GetPlayerAnimation().SetFloat(Const.PlayerAnimations.FLOAT_ATTACK_INDEX, currentAttackIndex);
-        player.GetPlayerAnimation().SetTrigger(Const.PlayerAnimations.TRIGGER_ATTACK);
-        if(currentAttackIndex == maxCombo)
+        playerFacade.SetAnimationFloat(Const.PlayerAnimations.FLOAT_ATTACK_INDEX, currentAttackIndex);
+        playerFacade.SetAnimationTrigger(Const.PlayerAnimations.TRIGGER_ATTACK);
+        if(currentAttackIndex == playerFacade.GetMaxCombo())
         {
             currentAttackIndex = -1;
         }
@@ -48,7 +36,7 @@ public class PlayerAttack : MonoBehaviour
     
     private async UniTaskVoid ResetCombo()
     {
-        await Extensions.GetUnitaskTime(comboResetTimer, cts);
+        await Extensions.GetUnitaskTime(playerFacade.GetComboResetTimer(), cts);
         currentAttackIndex = -1;
     }
 
@@ -57,11 +45,11 @@ public class PlayerAttack : MonoBehaviour
         currentAttackIndex = -1;
     }
 
-    private void OnDestroy() 
+    private void OnDestroy()
     {
         cts.Cancel();
         cts.Dispose();
-        player.GetPlayerEvents().OnResetAttackIndex -= PlayerAttack_OnResetAttackIndex;
+        PlayerEvents.Instance.OnResetAttackIndex -= PlayerAttack_OnResetAttackIndex;
     }
 
 }

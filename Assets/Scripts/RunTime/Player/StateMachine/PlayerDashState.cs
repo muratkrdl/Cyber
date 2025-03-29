@@ -1,33 +1,33 @@
 public class PlayerDashState : IPlayerState
 {
-    public void EnterState(Player player)
+    public void EnterState(PlayerFacade player)
     {
         player.CanDash = false;
         player.OnDash = true;
         
-        float dashSpeed = player.GetPlayerDash().GetDashSpeed;
+        float dashSpeed = player.GetDashSpeed();
         if(player.transform.localScale.x < 0)
         {
             dashSpeed *= -1;
         }
 
-        player.GetRigidbody.linearVelocityX = dashSpeed;
-        player.GetRigidbody.linearVelocityY = 0;
-        player.GetRigidbody.gravityScale = 0;
+        player.SetLinearVelocityX(dashSpeed);
+        player.SetLinearVelocityYToZero();
+        player.SetGravityScaleToZero();
 
-        player.GetPlayerAnimation().SetTrigger(Const.PlayerAnimations.TRIGGER_DASH);
-        player.GetPlayerDash().StartDash();
+        player.SetAnimationTrigger(Const.PlayerAnimations.TRIGGER_DASH);
+        player.StartDash();
     }
-    public void ExitState(Player player)
+    public void ExitState(PlayerFacade player)
     {
-        player.GetRigidbody.linearVelocityX = 0;
-        player.GetRigidbody.gravityScale = player.GetInitialGravity;
-        player.GetPlayerAnimation().SetTrigger(Const.PlayerAnimations.TRIGGER_IDLE);
+        player.SetLinearVelocityXToZero();
+        player.SetGravityScaleToInitial();
+        player.SetAnimationTrigger(Const.PlayerAnimations.TRIGGER_IDLE);
     }
-    public void FixedUpdateState(Player player)
+    public void FixedUpdateState(PlayerFacade player)
     {
     }
-    public void UpdateState(Player player)
+    public void UpdateState(PlayerFacade player)
     {
     }
 }

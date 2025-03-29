@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PlayerStateController : MonoBehaviour
 {
-    private Player player;
+    private PlayerFacade player;
 
     private IPlayerState currentPlayerState;
 
     private void Awake() 
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerFacade>();
     }
 
     private void Start() 

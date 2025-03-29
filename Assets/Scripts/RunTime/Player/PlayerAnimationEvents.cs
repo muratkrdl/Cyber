@@ -3,16 +3,16 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Player player;
+    [SerializeField] private PlayerFacade player;
 
     public void AnimEvent_StartFalling()
     {
-        player.GetPlayerAnimation().SetBool(Const.PlayerAnimations.BOOL_ISFALLING, true);
+        player.SetAnimationBool(Const.PlayerAnimations.BOOL_ISFALLING, true);
     }
 
     public void AnimEvent_StopFalling()
     {
-        player.GetPlayerAnimation().SetBool(Const.PlayerAnimations.BOOL_ISFALLING, false);
+        player.SetAnimationBool(Const.PlayerAnimations.BOOL_ISFALLING, false);
     }
 
     public void AnimEvent_Attack()
@@ -22,7 +22,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     public void AnimEvent_OnTouchGround()
     {
-        if(player.GetPlayerJump().CheckGround())
+        if(player.CheckGround())
         {
             player.CanDash = true;
         }

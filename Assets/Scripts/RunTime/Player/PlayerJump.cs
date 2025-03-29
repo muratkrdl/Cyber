@@ -8,20 +8,20 @@ public class PlayerJump : MonoBehaviour
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private float jumpForce;
 
-    private Player player;
+    private PlayerFacade playerFacade;
 
     private void Awake() 
     {
-        player = GetComponent<Player>();
+        playerFacade = GetComponent<PlayerFacade>();
     }
 
     public void OnJump()
     {
         if(!CheckGround()) return;
 
-        player.GetRigidbody.linearVelocityY = 0;
-        player.GetRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        player.GetPlayerAnimation().SetTrigger(Const.PlayerAnimations.TRIGGER_JUMP);
+        playerFacade.SetLinearVelocityYToZero();
+        playerFacade.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        playerFacade.SetAnimationTrigger(Const.PlayerAnimations.TRIGGER_JUMP);
     }
 
     public bool CheckGround()
@@ -30,7 +30,7 @@ public class PlayerJump : MonoBehaviour
 
         if(isGrounded)
         {
-            player.GetPlayerAnimation().SetBool(Const.PlayerAnimations.BOOL_ISFALLING, false);
+            playerFacade.SetAnimationBool(Const.PlayerAnimations.BOOL_ISFALLING, false);
         }
         
         return isGrounded;

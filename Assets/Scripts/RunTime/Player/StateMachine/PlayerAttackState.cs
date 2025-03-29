@@ -2,33 +2,33 @@ using Cysharp.Threading.Tasks;
 
 public class PlayerAttackState : IPlayerState
 {
-    public void EnterState(Player player)
+    public void EnterState(PlayerFacade player)
     {
-        if(!player.CanMove || !player.GetPlayerJump().CheckGround())
+        if(!player.CanMove || !player.CheckGround())
         {
-            player.GetPlayerEvents().OnStateChange.Invoke(new PlayerIdleState());
+            PlayerEvents.Instance.OnStateChange.Invoke(new PlayerIdleState());
             return;
         }
         
         player.CanMove = false;
-        player.GetPlayerAttack().OnAttack();
+        player.OnAttack();
         ResetAttack(player).Forget();
     }
-    public void ExitState(Player player)
+    public void ExitState(PlayerFacade player)
     {
     }
-    public void FixedUpdateState(Player player)
+    public void FixedUpdateState(PlayerFacade player)
     {
     }
-    public void UpdateState(Player player)
+    public void UpdateState(PlayerFacade player)
     {
     }
 
-    async UniTaskVoid ResetAttack(Player player)
+    async UniTaskVoid ResetAttack(PlayerFacade player)
     {
-        await Extensions.GetUnitaskTime(player.GetPlayerAttack().GetTimeBtwnAttack);
+        await Extensions.GetUnitaskTime(player.GetTimeBtwnAttack());
         player.CanMove = true;
-        player.GetPlayerEvents().OnStateChange.Invoke(new PlayerIdleState());
+        PlayerEvents.Instance.OnStateChange.Invoke(new PlayerIdleState());
     }
     
 }

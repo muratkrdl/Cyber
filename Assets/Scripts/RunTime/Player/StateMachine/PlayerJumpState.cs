@@ -1,21 +1,21 @@
 public class PlayerJumpState : IPlayerState
 {
-    public void EnterState(Player player)
+    public void EnterState(PlayerFacade player)
     {
         if(player.CanMove)
         {
-            player.GetPlayerJump().OnJump();
+            player.PlayerJump();
         }
 
-        player.GetPlayerEvents().OnStateChange.Invoke(new PlayerIdleState());
+        PlayerEvents.Instance.OnStateChange.Invoke(new PlayerIdleState());
     }
-    public void ExitState(Player player)
+    public void ExitState(PlayerFacade player)
     {
     }
-    public void FixedUpdateState(Player player)
+    public void FixedUpdateState(PlayerFacade player)
     {
     }
-    public void UpdateState(Player player)
+    public void UpdateState(PlayerFacade player)
     {
         // if(player.GetPlayerJump().CheckGround())
         // {

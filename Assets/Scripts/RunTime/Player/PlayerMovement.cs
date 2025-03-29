@@ -1,35 +1,21 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement
 {
-    [Header("Settings")]
-    [SerializeField] private float moveSpeed;
-
-    private Player player;
+    private PlayerFacade playerFacade;
 
     private float velocityX;
 
-    private void Awake() 
+    public PlayerMovement(PlayerFacade playerFacade)
     {
-        player = GetComponent<Player>();
+        this.playerFacade = playerFacade;
     }
 
     public void MoveHandle()
     {
-        float horizontaMovement = player.GetPlayerInputHandle().FramePlayerInput.MoveInput.x;
-        velocityX = horizontaMovement * moveSpeed * Time.fixedDeltaTime;
-        player.GetRigidbody.linearVelocityX = velocityX;
-    }
-
-    public void SetLinearVelocityXToZero()
-    {
-        velocityX = 0;
-        player.GetRigidbody.linearVelocityX = velocityX;
-    }
-
-    public float GetLinearVelocityY()
-    {
-        return player.GetRigidbody.linearVelocityY;
+        float horizontaMovement = playerFacade.GetPlayerMovementInput().x;
+        velocityX = horizontaMovement * playerFacade.GetMoveSpeed() * Time.fixedDeltaTime;
+        playerFacade.SetLinearVelocityX(velocityX);
     }
 
 }

@@ -14,7 +14,7 @@ public class ScrollingBackground : MonoBehaviour
 
     private void Update()
     {
-        Vector2 input = new(GlobalUnits.Instance.GetPlayer().GetRigidbody.linearVelocityX, 0);
+        Vector2 input = new(GlobalUnits.Instance.GetPlayer().GetLinearVelocity().x, 0);
         material.mainTextureOffset += scrollSpeed * Time.deltaTime * input;
     }
 

@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class PlayerMoveState : IPlayerState
 {
-    public void EnterState(Player player)
+    public void EnterState(PlayerFacade player)
     {
     }
-    public void ExitState(Player player)
+    public void ExitState(PlayerFacade player)
     {
-        player.GetPlayerMovement().SetLinearVelocityXToZero();
+        player.SetLinearVelocityXToZero();
     }
-    public void FixedUpdateState(Player player)
+    public void FixedUpdateState(PlayerFacade player)
     {
         player.GetPlayerMovement().MoveHandle();
     }
-    public void UpdateState(Player player)
+    public void UpdateState(PlayerFacade player)
     {
-        if(Mathf.Abs(player.GetHorizontalMovementInput()) < Mathf.Epsilon)
+        if(Mathf.Abs(player.GetPlayerMovementInput().x) < Mathf.Epsilon)
         {
-            player.GetPlayerEvents().OnStateChange?.Invoke(new PlayerIdleState());
+            PlayerEvents.Instance.OnStateChange?.Invoke(new PlayerIdleState());
         }
     }
 }

@@ -9,23 +9,16 @@ public struct FramePlayerInput
 
 public class PlayerInputHandle : MonoBehaviour
 {
-    public FramePlayerInput FramePlayerInput 
-    { 
-        get => GatherPlayerInput();
-    }
-
-    private Player player;
-
     private PlayerInputActions myPlayerInput;
 
     private Vector2 moveInput;
+
+    public Vector2 GetMoveInput => moveInput;
 
     private void Awake()
     {
         myPlayerInput = new();
         myPlayerInput.Enable();
-
-        player = GetComponent<Player>();
 
         myPlayerInput.Player.Move.performed += MoveActionStart;
         myPlayerInput.Player.Move.canceled += MoveActionCancel;
@@ -57,18 +50,10 @@ public class PlayerInputHandle : MonoBehaviour
     private void MoveActionStart(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
     private void MoveActionCancel(InputAction.CallbackContext context) => moveInput = Vector2.zero;
 
-    private void JumpActionStart(InputAction.CallbackContext context) => player.GetPlayerEvents().OnStateChange?.Invoke(new PlayerJumpState());
+    private void JumpActionStart(InputAction.CallbackContext context) => PlayerEvents.Instance.OnStateChange?.Invoke(new PlayerJumpState());
 
-    private void AttackActionStart(InputAction.CallbackContext context) => player.GetPlayerEvents().OnStateChange?.Invoke(new PlayerAttackState());
-    private void DashActionStart(InputAction.CallbackContext context) => player.GetPlayerEvents().OnStateChange?.Invoke(new PlayerDashState());
-
-    private FramePlayerInput GatherPlayerInput()
-    {
-        return new FramePlayerInput()
-        {
-            MoveInput = moveInput,
-        };
-    }
+    private void AttackActionStart(InputAction.CallbackContext context) => PlayerEvents.Instance.OnStateChange?.Invoke(new PlayerAttackState());
+    private void DashActionStart(InputAction.CallbackContext context) => PlayerEvents.Instance.OnStateChange?.Invoke(new PlayerDashState());
 
     private void OnDisable()
     {
