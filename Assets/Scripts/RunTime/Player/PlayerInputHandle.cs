@@ -1,11 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-public struct FramePlayerInput
-{
-    public Vector2 MoveInput;
-}
 
 public class PlayerInputHandle : MonoBehaviour
 {
@@ -48,7 +42,7 @@ public class PlayerInputHandle : MonoBehaviour
 
 
     private void MoveActionStart(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
-    private void MoveActionCancel(InputAction.CallbackContext context) => moveInput = Vector2.zero;
+    private void MoveActionCancel(InputAction.CallbackContext context) => moveInput = Caches.Zero2;
 
     private void JumpActionStart(InputAction.CallbackContext context) => PlayerEvents.Instance.OnStateChange?.Invoke(new PlayerJumpState());
 
@@ -65,6 +59,12 @@ public class PlayerInputHandle : MonoBehaviour
         myPlayerInput.Player.Attack.started -= AttackActionStart;
 
         myPlayerInput.Player.Dash.started -= DashActionStart;
+
+
+
+
+        myPlayerInput.Player.Pause.started -= PauseActionStart;
+        myPlayerInput.Player.Resume.started -= ResumeActionStart;
 
         myPlayerInput.Disable();
     }

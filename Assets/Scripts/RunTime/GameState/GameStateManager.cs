@@ -8,7 +8,7 @@ public class GameStateManager : MonoBehaviour
     public Action OnGamePause;
     public Action OnGameResume;
 
-    private GameState currentState;
+    private GameStates currentState;
 
     private bool isGamePaused;
 
@@ -29,12 +29,12 @@ public class GameStateManager : MonoBehaviour
 
     private void GameStateManager_OnGamePause()
     {
-        currentState = GameState.Pause;
+        currentState = GameStates.Pause;
         isGamePaused = true;
     }
     private void GameStateManager_OnGameResume()
     {
-        currentState = GameState.Resume;
+        currentState = GameStates.Resume;
         isGamePaused = false;
     }
 

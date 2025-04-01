@@ -1,18 +1,21 @@
 using UnityEngine;
 
-public class PlayerJump : MonoBehaviour
+public class PlayerJump
 {
-    [Header("Settings")]
-    [SerializeField] private Transform feetTransform;
-    [SerializeField] private float groundCheckSize;
-    [SerializeField] private LayerMask groundLayerMask;
-    [SerializeField] private float jumpForce;
+    private Transform feetTransform;
+    private LayerMask groundLayerMask;
+    private float groundCheckSize;
+    private float jumpForce;
 
     private PlayerFacade playerFacade;
 
-    private void Awake() 
+    public PlayerJump(PlayerFacade playerFacade, Transform feetTransform, LayerMask groundLayerMask, float groundCheckSize, float jumpForce)
     {
-        playerFacade = GetComponent<PlayerFacade>();
+        this.playerFacade = playerFacade;
+        this.feetTransform = feetTransform;
+        this.groundLayerMask = groundLayerMask;
+        this.groundCheckSize = groundCheckSize;
+        this.jumpForce = jumpForce;
     }
 
     public void OnJump()
@@ -20,8 +23,8 @@ public class PlayerJump : MonoBehaviour
         if(!CheckGround()) return;
 
         playerFacade.SetLinearVelocityYToZero();
-        playerFacade.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        playerFacade.SetAnimationTrigger(Const.PlayerAnimations.TRIGGER_JUMP);
+        playerFacade.AddForce(Caches.Up2 * jumpForce, ForceMode2D.Impulse);
+        playerFacade.SetAnimationTrigger(AnimationsID.Jump);
     }
 
     public bool CheckGround()
@@ -30,16 +33,10 @@ public class PlayerJump : MonoBehaviour
 
         if(isGrounded)
         {
-            playerFacade.SetAnimationBool(Const.PlayerAnimations.BOOL_ISFALLING, false);
+            playerFacade.SetAnimationBool(AnimationsID.IsFalling, false);
         }
         
         return isGrounded;
-    }
-
-    private void OnDrawGizmos() 
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(feetTransform.position, groundCheckSize);
     }
 
 }

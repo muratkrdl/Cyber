@@ -5,6 +5,7 @@ public class PlayerMovement
     private PlayerFacade playerFacade;
 
     private float velocityX;
+    private float horizontaMovement;
 
     public PlayerMovement(PlayerFacade playerFacade)
     {
@@ -13,7 +14,7 @@ public class PlayerMovement
 
     public void MoveHandle()
     {
-        float horizontaMovement = playerFacade.GetPlayerMovementInput().x;
+        horizontaMovement = playerFacade.GetPlayerMovementInput().x;
         velocityX = horizontaMovement * playerFacade.GetMoveSpeed() * Time.fixedDeltaTime;
         playerFacade.SetLinearVelocityX(velocityX);
     }

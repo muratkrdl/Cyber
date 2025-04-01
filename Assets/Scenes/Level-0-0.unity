@@ -3156,7 +3156,6 @@ GameObject:
   - component: {fileID: 1053386325}
   - component: {fileID: 1053386324}
   - component: {fileID: 1053386331}
-  - component: {fileID: 1053386330}
   - component: {fileID: 1053386327}
   - component: {fileID: 1053386335}
   - component: {fileID: 1053386326}
@@ -3223,8 +3222,14 @@ MonoBehaviour:
   playerSpriteRenderer: {fileID: 337105163}
   animator: {fileID: 337105164}
   moveSpeed: 100
+  feetTransform: {fileID: 944217772}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  groundCheckSize: 0.08
+  jumpForce: 3.65
   comboResetTimer: 3
-  timeBtwnAttack: 0.1
+  timeBtwnAttack: 0.5
   maxCombo: 3
   dashSpeed: 4
   dashTime: 0.25
@@ -3241,24 +3246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8065c606b6d55574caa5b0a9d587f4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1053386330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053386322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5de049aa59bf2144fac4a90070da7b15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  feetTransform: {fileID: 944217772}
-  groundCheckSize: 0.1
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 8192
-  jumpForce: 4
 --- !u!114 &1053386331
 MonoBehaviour:
   m_ObjectHideFlags: 0

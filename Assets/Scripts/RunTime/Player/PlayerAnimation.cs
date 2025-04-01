@@ -21,7 +21,7 @@ public class PlayerAnimation : MonoBehaviour
         float moveInputX = playerFacade.GetPlayerMovementInput().x;
         float linearVelocityY = playerFacade.GetLinearVelocity().y;
 
-        animator.SetFloat(Const.PlayerAnimations.FLOAT_LINEAR_VELOCITY_Y, linearVelocityY);
+        animator.SetFloat(AnimationsID.LinearVelocityY, linearVelocityY);
 
         if(Mathf.Abs(moveInputX) > Mathf.Epsilon)
         {
@@ -32,24 +32,24 @@ public class PlayerAnimation : MonoBehaviour
         {
             if(moveInputX != 0)
             {
-                playerFacade.transform.localScale = new(moveInputX, initialScale.y, initialScale.z);
+                playerFacade.Transform.localScale = new Vector3(moveInputX, initialScale.y, initialScale.z);
             }
             
-            animator.SetFloat(Const.PlayerAnimations.FLOAT_SPEED, Mathf.Abs(moveInputX));
+            animator.SetFloat(AnimationsID.Speed, Mathf.Abs(moveInputX));
         }
     }
 
-    public void SetTrigger(string triggerName)
+    public void SetTrigger(int triggerID)
     {
-        animator.SetTrigger(triggerName);
+        animator.SetTrigger(triggerID);
     }
-    public void SetBool(string boolName, bool value)
+    public void SetBool(int boolID, bool value)
     {
-        animator.SetBool(boolName, value);
+        animator.SetBool(boolID, value);
     }
-    public void SetFloat(string floatName, float value)
+    public void SetFloat(int floatID, float value)
     {
-        animator.SetFloat(floatName, value);
+        animator.SetFloat(floatID, value);
     }
 
 }

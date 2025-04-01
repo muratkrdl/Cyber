@@ -8,6 +8,7 @@ public class DashObject : MonoBehaviour, IPoolableObj<DashObject>
     [SerializeField] private Ease easeMod;
     [SerializeField] private float duration;
 
+    private Transform objTransform;
     private SpriteRenderer spriteRenderer;
 
     private IObjectPool<DashObject> pool;
@@ -16,6 +17,7 @@ public class DashObject : MonoBehaviour, IPoolableObj<DashObject>
     {
         this.pool = pool;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        objTransform = transform;
     }
 
     public void Initialize(SpriteRenderer renderer, Transform refTransform)
@@ -26,8 +28,8 @@ public class DashObject : MonoBehaviour, IPoolableObj<DashObject>
         spriteRenderer.sprite = renderer.sprite;
         spriteRenderer.color = randomColor;
 
-        transform.position = renderer.transform.position;
-        transform.localScale = refTransform.localScale;
+        objTransform.position = renderer.transform.position;
+        objTransform.localScale = refTransform.localScale;
 
         spriteRenderer.DOColor(lerpColor, duration)
             .SetEase(easeMod)

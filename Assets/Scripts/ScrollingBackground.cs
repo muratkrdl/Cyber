@@ -6,6 +6,7 @@ public class ScrollingBackground : MonoBehaviour
     [SerializeField] private float scrollSpeed;
 
     private Material material;
+    private Vector2 input = Caches.Zero2;
 
     private void Start() 
     {
@@ -14,7 +15,7 @@ public class ScrollingBackground : MonoBehaviour
 
     private void Update()
     {
-        Vector2 input = new(GlobalUnits.Instance.GetPlayer().GetLinearVelocity().x, 0);
+        input.x = GlobalUnits.Instance.GetPlayer().GetLinearVelocity().x;
         material.mainTextureOffset += scrollSpeed * Time.deltaTime * input;
     }
 

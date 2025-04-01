@@ -15,15 +15,15 @@ public class PlayerAttack
         PlayerEvents.Instance.OnResetAttackIndex += PlayerAttack_OnResetAttackIndex;
     }
     
-    public void OnAttack()
+    public void Attack()
     {
         cts?.Cancel();
         cts?.Dispose();
         cts = new();
 
         currentAttackIndex++;
-        playerFacade.SetAnimationFloat(Const.PlayerAnimations.FLOAT_ATTACK_INDEX, currentAttackIndex);
-        playerFacade.SetAnimationTrigger(Const.PlayerAnimations.TRIGGER_ATTACK);
+        playerFacade.SetAnimationFloat(AnimationsID.AttackIndex, currentAttackIndex);
+        playerFacade.SetAnimationTrigger(AnimationsID.Attack);
         if(currentAttackIndex == playerFacade.GetMaxCombo())
         {
             currentAttackIndex = -1;
@@ -45,7 +45,7 @@ public class PlayerAttack
         currentAttackIndex = -1;
     }
 
-    private void OnDestroy()
+    private void OnApplicationQuit() 
     {
         cts.Cancel();
         cts.Dispose();

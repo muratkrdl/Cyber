@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerFacade : GamePlayBehaviour
@@ -10,15 +11,21 @@ public class PlayerFacade : GamePlayBehaviour
     [Header("Move Settings")]
     [SerializeField] private float moveSpeed = 100;
 
+    [Header("Jump Settings")]
+    [SerializeField] private Transform feetTransform;
+    [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private float groundCheckSize = .08f;
+    [SerializeField] private float jumpForce = 3f;
+
     [Header("Attack Settings")]
-    [SerializeField] private float comboResetTimer;
-    [SerializeField] private float timeBtwnAttack;
-    [SerializeField] private int maxCombo;
+    [SerializeField] private float comboResetTimer = 3f;
+    [SerializeField] private float timeBtwnAttack = .5f;
+    [SerializeField] private int maxCombo = 3;
 
     [Header("Dash Settings")]
-    [SerializeField] private float dashSpeed = 4;
+    [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private float dashTime = 0.5f;
-    [SerializeField] private float spriteAmount = 25;
+    [SerializeField] private float spriteAmount = 25f;
 
     private PlayerInputHandle playerInputHandle;
     private PlayerAnimation playerAnimation;
@@ -29,6 +36,7 @@ public class PlayerFacade : GamePlayBehaviour
     private PlayerDash playerDash;
 
     private Rigidbody2D myRigidbody;
+    private Transform playerTransform;
 
     private bool canMove = true;
     private bool canDash;
@@ -65,17 +73,17 @@ public class PlayerFacade : GamePlayBehaviour
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
+        playerTransform = transform;
 
         playerStateController = GetComponent<PlayerStateController>();
         playerInputHandle = GetComponent<PlayerInputHandle>();
-        
-        playerJump = GetComponent<PlayerJump>();
 
         playerMovement = new PlayerMovement(this);
+        playerJump = new PlayerJump(this, feetTransform, groundLayerMask, groundCheckSize, jumpForce);
         playerAttack = new PlayerAttack(this);
         playerAnimation = new (this, animator, transform.localScale);
         playerDash = new PlayerDash(this);
-
+        
         initialGravity = myRigidbody.gravityScale;
     }
 
@@ -94,40 +102,13 @@ public class PlayerFacade : GamePlayBehaviour
     {
         if(
             GameStateManager.Instance.GetIsGamePaused ||
-            (state is PlayerDashState && !canDash) ||
-            (state is PlayerJumpState && onDash)) 
+            (state is not PlayerIdleState && onDash))
             return;
 
         playerStateController.SetPlayerState(state);
     }
 
-    public float GetMoveSpeed() => moveSpeed;
-
-    public float GetDashTime() => dashTime;
-    public float GetDashSpeed() => dashSpeed;
-    public float GetDashSpriteFrequency() => dashTime / spriteAmount;
-
-    public float GetComboResetTimer() => comboResetTimer;
-    public float GetTimeBtwnAttack() => timeBtwnAttack;
-    public int GetMaxCombo() => maxCombo;
-
-    public SpriteRenderer GetPlayerSpriteRenderer() => playerSpriteRenderer;
-    
-
-    public void SetAnimationFloat(string floatName, float value) => playerAnimation.SetFloat(floatName, value);
-    public void SetAnimationBool(string boolName, bool value) => playerAnimation.SetBool(boolName, value);
-    public void SetAnimationTrigger(string triggerName) => playerAnimation.SetTrigger(triggerName);
-
-    public bool CheckGround() => playerJump.CheckGround();
-    public void PlayerJump() => playerJump.OnJump();
-
-    public Vector2 GetPlayerMovementInput() => playerInputHandle.GetMoveInput;
-    public PlayerMovement GetPlayerMovement() => playerMovement;
-
-    public void OnAttack() => playerAttack.OnAttack();
-
-    public void StartDash() => playerDash.StartDash();
-
+    // Rigidbody
     public Vector2 GetLinearVelocity() => myRigidbody.linearVelocity;
     public void SetLinearVelocityXToZero() => myRigidbody.linearVelocityX = 0;
     public void SetLinearVelocityYToZero() => myRigidbody.linearVelocityY = 0;
@@ -136,14 +117,57 @@ public class PlayerFacade : GamePlayBehaviour
     public void SetLinearVelocityX(float x) => myRigidbody.linearVelocityX = x;
     public void AddForce(Vector2 direction, ForceMode2D mode = default) => myRigidbody.AddForce(direction, mode);
 
+    // Other References
+    public SpriteRenderer GetPlayerSpriteRenderer() => playerSpriteRenderer;
+    public Transform Transform => playerTransform;
+
+    // Move
+    public PlayerMovement GetPlayerMovement() => playerMovement;
+    public Vector2 GetPlayerMovementInput() => playerInputHandle.GetMoveInput;
+    public float GetMoveSpeed() => moveSpeed;
+
+    // Jump
+    public void PlayerJump() => playerJump.OnJump();
+    public bool CheckGround() => playerJump.CheckGround();
+
+    // Attack
+    public void OnAttack() => playerAttack.Attack();
+    public float GetComboResetTimer() => comboResetTimer;
+    public float GetTimeBtwnAttack() => timeBtwnAttack;
+    public int GetMaxCombo() => maxCombo;
+
+    // Dash
+    public void OnStartDash() => playerDash.StartDash();
+    public float GetDashTime() => dashTime;
+    public float GetDashSpeed() => dashSpeed;
+    public float GetDashSpriteFrequency() => dashTime / spriteAmount;
+    
+    // Animation
+    public void SetAnimationFloat(int floatID, float value) => playerAnimation.SetFloat(floatID, value);
+    public void SetAnimationBool(int boolID, bool value) => playerAnimation.SetBool(boolID, value);
+    public void SetAnimationTrigger(int triggerID) => playerAnimation.SetTrigger(triggerID);
 
 
 
+    private void OnDrawGizmos() 
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(feetTransform.position, groundCheckSize);
+    }
+
+    async UniTaskVoid SetCanDashTrue()
+    {
+        float dashResetTimer = .09f;
+        await Extensions.GetUnitaskTime(dashResetTimer);
+        canDash = true;
+    }
+
+#region GamePlayBehaviour
     protected override void GameStateManager_OnGamePause()
     {
         myRigidbody.gravityScale = 0;
         onPauseLinearVelocityY = myRigidbody.linearVelocityY;
-        myRigidbody.linearVelocity = Vector2.zero;
+        myRigidbody.linearVelocity = Caches.Zero2;
         animator.speed = 0;
         PlayerEvents.Instance.OnStateChange?.Invoke(new PlayerPauseState());
     }
@@ -161,11 +185,6 @@ public class PlayerFacade : GamePlayBehaviour
         base.OnDestroy();
         PlayerEvents.Instance.OnStateChange -= PlayerEvents_OnStateChange;
     }
-
-    async UniTaskVoid SetCanDashTrue()
-    {
-        await Extensions.GetUnitaskTime(.1f);
-        canDash = true;
-    }
+#endregion
 
 }

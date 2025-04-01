@@ -7,12 +7,12 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     public void AnimEvent_StartFalling()
     {
-        player.SetAnimationBool(Const.PlayerAnimations.BOOL_ISFALLING, true);
+        player.SetAnimationBool(AnimationsID.IsFalling, true);
     }
 
     public void AnimEvent_StopFalling()
     {
-        player.SetAnimationBool(Const.PlayerAnimations.BOOL_ISFALLING, false);
+        player.SetAnimationBool(AnimationsID.IsFalling, false);
     }
 
     public void AnimEvent_Attack()

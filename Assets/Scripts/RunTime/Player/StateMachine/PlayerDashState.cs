@@ -15,14 +15,14 @@ public class PlayerDashState : IPlayerState
         player.SetLinearVelocityYToZero();
         player.SetGravityScaleToZero();
 
-        player.SetAnimationTrigger(Const.PlayerAnimations.TRIGGER_DASH);
-        player.StartDash();
+        player.SetAnimationTrigger(AnimationsID.Dash);
+        player.OnStartDash();
     }
     public void ExitState(PlayerFacade player)
     {
         player.SetLinearVelocityXToZero();
         player.SetGravityScaleToInitial();
-        player.SetAnimationTrigger(Const.PlayerAnimations.TRIGGER_IDLE);
+        player.SetAnimationTrigger(AnimationsID.Idle);
     }
     public void FixedUpdateState(PlayerFacade player)
     {

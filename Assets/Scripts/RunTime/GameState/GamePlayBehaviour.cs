@@ -14,6 +14,7 @@ public abstract class GamePlayBehaviour : MonoBehaviour
     protected virtual void OnDestroy() 
     {
         GameStateManager.Instance.OnGamePause -= GameStateManager_OnGamePause;
+        GameStateManager.Instance.OnGameResume -= GameStateManager_OnGameResume;
     }
 
 }

@@ -27,8 +27,9 @@ public class PlayerAttackState : IPlayerState
     async UniTaskVoid ResetAttack(PlayerFacade player)
     {
         await Extensions.GetUnitaskTime(player.GetTimeBtwnAttack());
-        player.CanMove = true;
+        await Extensions.WaitUntil(!GameStateManager.Instance.GetIsGamePaused);
         PlayerEvents.Instance.OnStateChange.Invoke(new PlayerIdleState());
+        player.CanMove = true;
     }
     
 }
