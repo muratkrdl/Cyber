@@ -5,21 +5,29 @@ namespace RunTime.Controllers
 {
     public class ScrollingBackgroundController : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private float scrollSpeed;
-    
         private Material material;
-        private Vector2 input = Caches.Zero2;
-    
+        private float scrollSpeed;
+        private Vector2 scrollPosition = Caches.Zero2;
+        
         private void Start() 
         {
             material = GetComponent<SpriteRenderer>().material;
         }
-    
+        
         private void Update()
         {
-            // input.x = GlobalUnits.Instance.GetPlayer().GetLinearVelocity().x;
-            material.mainTextureOffset += scrollSpeed * Time.deltaTime * input;
+            material.mainTextureOffset += scrollSpeed * Time.deltaTime * scrollPosition;
         }
+
+        public void SetDir(float x)
+        {
+            scrollPosition.x = x;
+        }
+
+        public void SetScrollSpeed(float scrollSpeed)
+        {
+            this.scrollSpeed = scrollSpeed;
+        }
+    
     }
 }

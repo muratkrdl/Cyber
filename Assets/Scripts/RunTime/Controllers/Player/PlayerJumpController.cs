@@ -6,6 +6,7 @@ namespace RunTime.Controllers.Player
 {
     public class PlayerJumpController : MonoBehaviour
     {
+        [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Transform feetTransform;
         
         private PlayerJumpData _data;
@@ -18,25 +19,18 @@ namespace RunTime.Controllers.Player
         public void OnJump()
         {
             if(!CheckGround()) return;
-
-            // playerFacade.SetLinearVelocityYToZero();
-            // playerFacade.AddForce(Caches.Up2 * _jumpForce, ForceMode2D.Impulse);
-            // playerFacade.SetAnimationTrigger(AnimationsID.Jump);
+            
+            rb.linearVelocityY = 0;
+            rb.AddForce(Caches.Up2 * _data.jumpForce, ForceMode2D.Impulse);
         }
 
-        private bool CheckGround()
+        public bool CheckGround()
         {
             Collider2D isGrounded = Physics2D.OverlapCircle(feetTransform.position, _data.groundCheckSize, _data.groundLayerMask);
-
-            if(isGrounded)
-            {
-                // playerFacade.SetAnimationBool(AnimationsID.IsFalling, false);
-            }
-        
             return isGrounded;
         }
         
-        private void OnDrawGizmos() 
+        private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(feetTransform.position, _data.groundCheckSize);

@@ -16,16 +16,20 @@ namespace RunTime.Objects
 
         private IObjectPool<DashObject> pool;
 
+        private void Awake()
+        {
+            objTransform = transform;
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
         public void SetObjPool(IObjectPool<DashObject> pool)
         {
             this.pool = pool;
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            objTransform = transform;
         }
 
         public void Initialize(SpriteRenderer renderer, Transform refTransform)
         {
-            Color randomColor = Extensions.Extensions.GetRandomColor();
+            Color randomColor = Extensions.MyExtensions.GetRandomColor();
             Color lerpColor = new(randomColor.r, randomColor.g, randomColor.b, 0);
         
             spriteRenderer.sprite = renderer.sprite;

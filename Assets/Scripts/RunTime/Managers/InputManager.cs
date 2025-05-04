@@ -34,6 +34,9 @@ namespace RunTime.Managers
             
             CoreGameEvents.Instance.onGamePause += PauseActionStart;
             CoreGameEvents.Instance.onGameResume += ResumeActionStart;
+
+            CoreGameEvents.Instance.onEnableInput += OnEnableInput;
+            CoreGameEvents.Instance.onDisableInput += OnDisableInput;
         }
 
         private void MoveActionStart(InputAction.CallbackContext context)
@@ -71,6 +74,16 @@ namespace RunTime.Managers
             myPlayerInput.Enable();
         }
         
+        private void OnEnableInput()
+        {
+            myPlayerInput.Player.Enable();
+        }
+
+        private void OnDisableInput()
+        {
+            myPlayerInput.Player.Disable();
+        }
+        
         private void UnSubscribeEvents()
         {
             myPlayerInput.Player.Move.started -= MoveActionStart;
@@ -84,6 +97,9 @@ namespace RunTime.Managers
             
             CoreGameEvents.Instance.onGamePause -= PauseActionStart;
             CoreGameEvents.Instance.onGameResume -= ResumeActionStart;
+            
+            CoreGameEvents.Instance.onEnableInput -= OnEnableInput;
+            CoreGameEvents.Instance.onDisableInput -= OnDisableInput;
         }
 
         private void OnDisable()

@@ -1,4 +1,6 @@
+using RunTime.Events;
 using RunTime.Helpers;
+using RunTime.Keys;
 using UnityEngine;
 
 namespace RunTime.Controllers.Player
@@ -7,22 +9,30 @@ namespace RunTime.Controllers.Player
     {
         public void AnimEvent_StartFalling()
         {
-            // player.SetAnimationBool(AnimationsID.IsFalling, true);
+            AnimationEvents.Instance.onBoolAnimation(new AnimationBoolParams()
+                { Id = AnimationsID.IsFalling, Value = true });
         }
 
         public void AnimEvent_StopFalling()
         {
-            // player.SetAnimationBool(AnimationsID.IsFalling, false);
+            AnimationEvents.Instance.onBoolAnimation(new AnimationBoolParams()
+                { Id = AnimationsID.IsFalling, Value = false });
         }
 
         public void AnimEvent_Attack()
         {
-        
+            // TODO : Implement sphere overlap
+            
         }
 
         public void AnimEvent_OnTouchGround()
         {
+            AnimationEvents.Instance.onBoolAnimation(new AnimationBoolParams()
+                { Id = AnimationsID.IsFalling, Value = false });
+            
             // player.CanDash = true;
+            
+            // TODO : TouchGroundEvent
         }
 
     }

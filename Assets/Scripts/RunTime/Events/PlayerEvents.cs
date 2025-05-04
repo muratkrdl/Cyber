@@ -1,23 +1,11 @@
 using System;
+using RunTime.Extensions;
 using UnityEngine;
 
 namespace RunTime.Events
 {
-    public class PlayerEvents : MonoBehaviour
+    public class PlayerEvents : MonoSingleton<PlayerEvents>
     {
-        public static PlayerEvents Instance;
-
-        private void Awake() 
-        {
-            if(Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-        }
-        
         // public Action<IPlayerState> OnStateChange;
         public Action OnResetAttackIndex;
 

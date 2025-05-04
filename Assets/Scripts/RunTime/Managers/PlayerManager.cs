@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using RunTime.Behaviours;
 using RunTime.Controllers.Player;
 using RunTime.Data.UnityObjects;
@@ -17,7 +16,6 @@ namespace RunTime.Managers
         [SerializeField] private PlayerAttackController playerAttackController;
         [SerializeField] private PlayerDashController playerDashController;
         [SerializeField] private PlayerAnimationController playerAnimationController;
-        [SerializeField] private PlayerAnimationEventsController playerAnimationEventsController;
         [SerializeField] private PlayerPhysicsController playerPhysicsController;
         
         private CD_Player _data;
@@ -41,6 +39,9 @@ namespace RunTime.Managers
         {
             InputEvents.Instance.onStartMove += OnStartMove;
             InputEvents.Instance.onStopMove += OnStopMove;
+            InputEvents.Instance.onJump += OnJump;
+
+            InputEvents.Instance.onDash += OnDash;
         }
 
         private void OnStartMove(float2 input)
@@ -52,38 +53,33 @@ namespace RunTime.Managers
         {
             playerMovementController.StopMove();
         }
+        
+        private void OnJump()
+        {
+            if (!playerJumpController.CheckGround()) return;
+            
+            playerJumpController.OnJump();
+            AnimationEvents.Instance.onTriggerAnimation(AnimationsID.Jump);
+        }
+        
+        private void OnDash()
+        {
+            playerDashController.StartDash();
+        }
 
         private void UnSubscribeEvents()
         {
             InputEvents.Instance.onStartMove -= OnStartMove;
             InputEvents.Instance.onStopMove -= OnStopMove;
+            InputEvents.Instance.onJump -= OnJump;
+            
+            InputEvents.Instance.onDash -= OnDash;
         }
 
         private void OnDisable()
         {
             UnSubscribeEvents();
         }
-
-
-        /*
-        Move
-        public Vector2 GetPlayerMovementInput() => playerInputHandle.GetMoveInput;
-    
-        Jump
-        public void PlayerJump() => playerJump.OnJump();
-        public bool CheckGround() => playerJump.CheckGround();
-    
-        Attack
-        public void OnAttack() => playerAttack.Attack();
-    
-        Animation
-        public void SetAnimationFloat(int floatID, float value) => playerAnimation.SetFloat(floatID, value);
-        public void SetAnimationBool(int boolID, bool value) => playerAnimation.SetBool(boolID, value);
-        public void SetAnimationTrigger(int triggerID) => playerAnimation.SetTrigger(triggerID);
-        */
-        
-        
-        
         
         /*
         async UniTaskVoid SetCanDashTrue()

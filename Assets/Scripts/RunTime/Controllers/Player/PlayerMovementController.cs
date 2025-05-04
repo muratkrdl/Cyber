@@ -9,8 +9,8 @@ namespace RunTime.Controllers.Player
         [SerializeField] private Rigidbody2D rb;
         
         private PlayerMovementData _data;
-
-        private float velocityX;
+        
+        private Vector2 _currentVelocity;
 
         public void SetData(PlayerMovementData data)
         {
@@ -19,13 +19,16 @@ namespace RunTime.Controllers.Player
 
         public void MoveHandle(float2  input)
         {
-            velocityX = input.x * _data.moveSpeed * Time.fixedDeltaTime;
-            rb.linearVelocityX = velocityX;
+            _currentVelocity = rb.linearVelocity;
+            _currentVelocity.x = input.x * _data.moveSpeed / 10;
+            rb.linearVelocity = _currentVelocity;
         }
 
         public void StopMove()
         {
-            rb.linearVelocity = Vector2.zero;
+            _currentVelocity = rb.linearVelocity;
+            _currentVelocity.x = 0;
+            rb.linearVelocity = _currentVelocity;
         }
     }
 }

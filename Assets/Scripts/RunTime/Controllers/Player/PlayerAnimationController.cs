@@ -1,5 +1,7 @@
+using RunTime.Events;
 using RunTime.Helpers;
-using RunTime.Managers;
+using RunTime.Keys;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace RunTime.Controllers.Player
@@ -9,44 +11,81 @@ namespace RunTime.Controllers.Player
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody2D rb;
         
-        private Vector3 initialScale;
-
-        public void SetAnimationValues()
+        private float3 _initialScale;
+        private float _linearVelocityY;
+        private float _moveInputX;
+        
+        private void Awake()
         {
-            //if(GameStateManager.Instance.GetIsGamePaused || playerFacade.OnDash) return;
-
-            float moveInputX = rb.linearVelocityX;
-            float linearVelocityY = rb.linearVelocityY;
-
-            animator.SetFloat(AnimationsID.LinearVelocityY, linearVelocityY);
-
-            if(Mathf.Abs(moveInputX) > Mathf.Epsilon)
-            {
-                moveInputX = Mathf.Sign(moveInputX);
-            }
-
-            // if(playerFacade.CanMove)
-            {
-                if(moveInputX != 0)
-                {
-                    transform.localScale = new Vector3(moveInputX, initialScale.y, initialScale.z);
-                }
-            
-                animator.SetFloat(AnimationsID.Speed, Mathf.Abs(moveInputX));
-            }
+            _initialScale = transform.localScale;
         }
 
-        public void SetTrigger(int triggerID)
+        private void OnEnable()
+        {
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            InputEvents.Instance.onStartMove += OnStartMove;
+            InputEvents.Instance.onStopMove += OnStopMove;
+
+            AnimationEvents.Instance.onTriggerAnimation += OnTriggerAnimation;
+            AnimationEvents.Instance.onBoolAnimation += OnBoolAnimation;
+            AnimationEvents.Instance.onFloatAnimation += OnFloatAnimation;
+        }
+        
+        private void OnStartMove(float2 value)
+        {
+            _moveInputX = value.x;
+        }
+        
+        private void OnStopMove()
+        {
+            _moveInputX = 0;
+        }
+        
+        private void UnSubscribeEvents()
+        {
+            InputEvents.Instance.onStartMove -= OnStartMove;
+            InputEvents.Instance.onStopMove -= OnStopMove;
+        }
+
+        private void OnDisable()
+        {
+            UnSubscribeEvents();
+        }
+
+        private void LateUpdate()
+        {
+            SetAnimationValues();
+        }
+
+        private void SetAnimationValues()
+        {
+            _linearVelocityY = rb.linearVelocityY;
+            
+            if(Mathf.Abs(_moveInputX) > Mathf.Epsilon)
+            {
+                _moveInputX = Mathf.Sign(_moveInputX);
+                transform.localScale = new Vector3(_moveInputX, _initialScale.y, _initialScale.z);
+            }
+
+            OnFloatAnimation(new AnimationFloatParams() { Id = AnimationsID.LinearVelocityY, Value = _linearVelocityY });
+            OnFloatAnimation(new AnimationFloatParams() { Id = AnimationsID.Speed, Value = Mathf.Abs(_moveInputX) });
+        }
+
+        private void OnTriggerAnimation(int triggerID)
         {
             animator.SetTrigger(triggerID);
         }
-        public void SetBool(int boolID, bool value)
+        private void OnBoolAnimation(AnimationBoolParams param)
         {
-            animator.SetBool(boolID, value);
+            animator.SetBool(param.Id, param.Value);
         }
-        public void SetFloat(int floatID, float value)
+        private void OnFloatAnimation(AnimationFloatParams param)
         {
-            animator.SetFloat(floatID, value);
+            animator.SetFloat(param.Id, param.Value);
         }
     }
 }

@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace RunTime.Extensions
 {
-    public static class Extensions
+    public static class MyExtensions
     {
         public static Color GetRandomColor()
         {
@@ -23,6 +23,10 @@ namespace RunTime.Extensions
         public static UniTask WaitUntilAsync(Func<bool> value)
         {
             return UniTask.WaitUntil(value);
+        }
+        public static UniTask WaitUntilAsync(Func<bool> value, CancellationTokenSource cts)
+        {
+            return UniTask.WaitUntil(value, cancellationToken: cts.Token);
         }
     }
 }

@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: CD_Player
   m_EditorClassIdentifier: 
   PlayerMovementData:
-    moveSpeed: 100
+    moveSpeed: 20
   PlayerJumpData:
     groundLayerMask:
       serializedVersion: 2
-      m_Bits: 8193
-    groundCheckSize: 0.08
-    jumpForce: 3
+      m_Bits: 8192
+    groundCheckSize: 0.07
+    jumpForce: 3.5
   PlayerAttackData:
     comboResetTimer: 3
     timeBtwnAttack: 0.5
     maxCombo: 3
   PlayerDashData:
     dashSpeed: 4
-    dashTime: 0.5
-    spriteAmount: 25
+    dashTime: 0.3
+    spriteAmount: 30

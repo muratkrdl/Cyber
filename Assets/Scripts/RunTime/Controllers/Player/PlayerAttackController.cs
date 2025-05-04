@@ -41,7 +41,7 @@ public class PlayerAttackController : MonoBehaviour
     
     private async UniTaskVoid ResetCombo()
     {
-        await Extensions.WaitForSecondsAsync(_data.comboResetTimer, cts);
+        await MyExtensions.WaitForSecondsAsync(_data.comboResetTimer, cts);
         currentAttackIndex = -1;
     }
 
