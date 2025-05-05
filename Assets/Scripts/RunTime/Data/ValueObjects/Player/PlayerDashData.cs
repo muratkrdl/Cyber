@@ -8,5 +8,6 @@ namespace RunTime.Data.ValueObjects
         public float dashSpeed;
         public float dashTime;
         public float spriteAmount;
+        public float canDashTimer;
     }
 }

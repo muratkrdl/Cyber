@@ -1,13 +1,14 @@
 using System;
 using RunTime.Extensions;
-using UnityEngine;
+using UnityEngine.Events;
 
 namespace RunTime.Events
 {
     public class PlayerEvents : MonoSingleton<PlayerEvents>
     {
-        // public Action<IPlayerState> OnStateChange;
-        public Action OnResetAttackIndex;
+        public UnityAction onEnterGround;
+        public UnityAction onExitGround;
+        public Action onResetAttackIndex;
 
     }
 }

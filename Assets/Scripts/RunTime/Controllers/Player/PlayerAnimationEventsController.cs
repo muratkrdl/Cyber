@@ -25,15 +25,5 @@ namespace RunTime.Controllers.Player
             
         }
 
-        public void AnimEvent_OnTouchGround()
-        {
-            AnimationEvents.Instance.onBoolAnimation(new AnimationBoolParams()
-                { Id = AnimationsID.IsFalling, Value = false });
-            
-            // player.CanDash = true;
-            
-            // TODO : TouchGroundEvent
-        }
-
     }
 }

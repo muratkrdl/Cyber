@@ -28,3 +28,4 @@ MonoBehaviour:
     dashSpeed: 4
     dashTime: 0.3
     spriteAmount: 30
+    canDashTimer: 0.1

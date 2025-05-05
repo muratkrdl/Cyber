@@ -23,20 +23,20 @@ namespace RunTime.Managers
 
         private void SubscribeEvents()
         {
-            myPlayerInput.Player.Move.started += MoveActionStart;
-            myPlayerInput.Player.Move.canceled += MoveActionCancel;
+            myPlayerInput.GamePlay.Move.started += MoveActionStart;
+            myPlayerInput.GamePlay.Move.canceled += MoveActionCancel;
             
-            myPlayerInput.Player.Jump.started += JumpActionStart;
+            myPlayerInput.GamePlay.Jump.started += JumpActionStart;
             
-            myPlayerInput.Player.Attack.started += AttackActionStart;
+            myPlayerInput.GamePlay.Attack.started += AttackActionStart;
             
-            myPlayerInput.Player.Dash.started += DashActionStart;
+            myPlayerInput.GamePlay.Dash.started += DashActionStart;
             
             CoreGameEvents.Instance.onGamePause += PauseActionStart;
             CoreGameEvents.Instance.onGameResume += ResumeActionStart;
 
-            CoreGameEvents.Instance.onEnableInput += OnEnableInput;
-            CoreGameEvents.Instance.onDisableInput += OnDisableInput;
+            CoreGameEvents.Instance.onEnableGameplayInput += OnEnableInput;
+            CoreGameEvents.Instance.onDisableGameplayInput += OnDisableInput;
         }
 
         private void MoveActionStart(InputAction.CallbackContext context)
@@ -76,30 +76,30 @@ namespace RunTime.Managers
         
         private void OnEnableInput()
         {
-            myPlayerInput.Player.Enable();
+            myPlayerInput.GamePlay.Enable();
         }
 
         private void OnDisableInput()
         {
-            myPlayerInput.Player.Disable();
+            myPlayerInput.GamePlay.Disable();
         }
         
         private void UnSubscribeEvents()
         {
-            myPlayerInput.Player.Move.started -= MoveActionStart;
-            myPlayerInput.Player.Move.canceled -= MoveActionCancel;
+            myPlayerInput.GamePlay.Move.started -= MoveActionStart;
+            myPlayerInput.GamePlay.Move.canceled -= MoveActionCancel;
             
-            myPlayerInput.Player.Jump.started -= JumpActionStart;
+            myPlayerInput.GamePlay.Jump.started -= JumpActionStart;
             
-            myPlayerInput.Player.Attack.started -= AttackActionStart;
+            myPlayerInput.GamePlay.Attack.started -= AttackActionStart;
             
-            myPlayerInput.Player.Dash.started -= DashActionStart;
+            myPlayerInput.GamePlay.Dash.started -= DashActionStart;
             
             CoreGameEvents.Instance.onGamePause -= PauseActionStart;
             CoreGameEvents.Instance.onGameResume -= ResumeActionStart;
             
-            CoreGameEvents.Instance.onEnableInput -= OnEnableInput;
-            CoreGameEvents.Instance.onDisableInput -= OnDisableInput;
+            CoreGameEvents.Instance.onEnableGameplayInput -= OnEnableInput;
+            CoreGameEvents.Instance.onDisableGameplayInput -= OnDisableInput;
         }
 
         private void OnDisable()

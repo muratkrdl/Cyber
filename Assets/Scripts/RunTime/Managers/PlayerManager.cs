@@ -2,7 +2,6 @@ using RunTime.Behaviours;
 using RunTime.Controllers.Player;
 using RunTime.Data.UnityObjects;
 using RunTime.Events;
-using RunTime.Helpers;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -40,8 +39,23 @@ namespace RunTime.Managers
             InputEvents.Instance.onStartMove += OnStartMove;
             InputEvents.Instance.onStopMove += OnStopMove;
             InputEvents.Instance.onJump += OnJump;
-
+            InputEvents.Instance.onAttack += OnAttack;
             InputEvents.Instance.onDash += OnDash;
+
+            PlayerEvents.Instance.onEnterGround += OnEnterGround;
+            PlayerEvents.Instance.onExitGround += OnExitGround;
+        }
+
+        private void OnEnterGround()
+        {
+            playerJumpController.OnEnterGround();
+            playerDashController.OnEnterGround();
+            playerAttackController.OnEnterGround();
+        }
+        
+        private void OnExitGround()
+        {
+            playerAttackController.OnExitGround();
         }
 
         private void OnStartMove(float2 input)
@@ -56,10 +70,12 @@ namespace RunTime.Managers
         
         private void OnJump()
         {
-            if (!playerJumpController.CheckGround()) return;
-            
             playerJumpController.OnJump();
-            AnimationEvents.Instance.onTriggerAnimation(AnimationsID.Jump);
+        }
+        
+        private void OnAttack()
+        {
+            playerAttackController.Attack();
         }
         
         private void OnDash()
@@ -80,15 +96,6 @@ namespace RunTime.Managers
         {
             UnSubscribeEvents();
         }
-        
-        /*
-        async UniTaskVoid SetCanDashTrue()
-        {
-            float dashResetTimer = .09f;
-            await Extensions.Extensions.WaitForSecondsAsync(dashResetTimer);
-            canDash = true;
-        }
-        */
     
         protected override void GameStateManager_OnGamePause()
         {

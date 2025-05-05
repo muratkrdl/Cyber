@@ -9,13 +9,13 @@ public class Rebinding : MonoBehaviour
     {
         if(Keyboard.current.tKey.wasPressedThisFrame)
         {
-            myPlayerInput.Player.Disable();
+            myPlayerInput.GamePlay.Disable();
             myPlayerInput.UI.Enable();
         }
 
         // start listening device for rebind input
         myPlayerInput.Disable();
-        myPlayerInput.Player.Jump.PerformInteractiveRebinding()
+        myPlayerInput.GamePlay.Jump.PerformInteractiveRebinding()
             .WithControlsExcluding("Mouse")
             .OnComplete(callback => { Debug.Log(callback); callback.Dispose(); } )
             .Start();

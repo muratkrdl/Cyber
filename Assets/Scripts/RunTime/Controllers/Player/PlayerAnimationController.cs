@@ -45,6 +45,19 @@ namespace RunTime.Controllers.Player
             _moveInputX = 0;
         }
         
+        private void OnTriggerAnimation(int triggerID)
+        {
+            animator.SetTrigger(triggerID);
+        }
+        private void OnBoolAnimation(AnimationBoolParams param)
+        {
+            animator.SetBool(param.Id, param.Value);
+        }
+        private void OnFloatAnimation(AnimationFloatParams param)
+        {
+            animator.SetFloat(param.Id, param.Value);
+        }
+        
         private void UnSubscribeEvents()
         {
             InputEvents.Instance.onStartMove -= OnStartMove;
@@ -74,18 +87,6 @@ namespace RunTime.Controllers.Player
             OnFloatAnimation(new AnimationFloatParams() { Id = AnimationsID.LinearVelocityY, Value = _linearVelocityY });
             OnFloatAnimation(new AnimationFloatParams() { Id = AnimationsID.Speed, Value = Mathf.Abs(_moveInputX) });
         }
-
-        private void OnTriggerAnimation(int triggerID)
-        {
-            animator.SetTrigger(triggerID);
-        }
-        private void OnBoolAnimation(AnimationBoolParams param)
-        {
-            animator.SetBool(param.Id, param.Value);
-        }
-        private void OnFloatAnimation(AnimationFloatParams param)
-        {
-            animator.SetFloat(param.Id, param.Value);
-        }
+        
     }
 }

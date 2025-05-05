@@ -12,8 +12,8 @@ namespace RunTime.Events
         public UnityAction onGameQuit;
         public UnityAction onReset;
 
-        public UnityAction onEnableInput;
-        public UnityAction onDisableInput;
+        public UnityAction onEnableGameplayInput;
+        public UnityAction onDisableGameplayInput;
 
     }
 }
